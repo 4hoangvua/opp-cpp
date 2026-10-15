@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đang chuyển hướng sang Chrome...</title>
+  <style>
+    body { font-family: sans-serif; background: #0f172a; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; text-align: center; padding: 20px; }
+    .spinner { width: 40px; height: 40px; border: 4px solid #6366f1; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .btn { display: inline-block; background: #6366f1; color: #white; padding: 12px 24px; border-radius: 12px; font-weight: bold; text-decoration: none; margin-top: 16px; }
+  </style>
+</head>
+<body>
+  <div class="spinner"></div>
+  <h2>Đang tự động mở trình duyệt Chrome...</h2>
+  <p style="font-size: 14px; color: #94a3b8;">Nếu điện thoại không tự mở, hãy bấm nút bên dưới:</p>
+  <a id="openLink" href="#" class="btn">Mở ngay bằng Chrome / Safari</a>
+
+  <script>
+    // DÁN LINK /exec CỦA GOOGLE APPS SCRIPT VÀO ĐÂY:
+    const TARGET_URL = 'LINK_EXEC_CỦA_BẠN';
+
+    window.onload = function() {
+      document.getElementById('openLink').href = TARGET_URL;
+      const ua = navigator.userAgent || '';
+      const isAndroid = /Android/i.test(ua);
+
+      if (isAndroid) {
+        // Tự động ép máy Android văng ra Chrome ngay lập tức
+        const cleanUrl = TARGET_URL.replace(/^https?:\/\//i, '');
+        window.location.href = 'intent://' + cleanUrl + '#Intent;scheme=https;package=com.android.chrome;end';
+      } else {
+        // Trên iPhone -> Tự động chuyển thẳng tới web app luôn
+        setTimeout(function() {
+          window.location.href = TARGET_URL;
+        }, 500);
+      }
+    };
+  </script>
+</body>
+</html>
